@@ -1,0 +1,14 @@
+python-dotenv
+pytesseract
+pdf2image
+PyPDF2
+faiss-cpu
+numpy
+openai
+sentence-transformers
+langchain
+fastapi 
+pydantic 
+typing 
+uvicorn
+streamlit 
