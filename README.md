@@ -201,6 +201,42 @@ The system includes evaluation metrics:
 ### Debug Mode
 Enable verbose logging by modifying the print statements in the code or adding logging configuration.
 
+## 🧑‍💻 Technical Approach & Design Decisions
+
+### 1. What method or library did you use to extract the text, and why? Did you face any formatting challenges with the PDF content?
+I used the **PyMuPDF** (`fitz`) library for text extraction from PDFs. PyMuPDF is robust and handles a wide range of PDF layouts, including those with complex formatting, images, and multi-column text. It outperforms alternatives like `pdfminer` or `PyPDF2` for our use case. 
+
+**Formatting Challenges:** PDF files often have inconsistent layouts (headers, footers, columns), which can break sentences or introduce extra line breaks. I addressed this by post-processing the extracted text to merge lines and remove extra whitespace, but some minor artifacts may remain.
+
+### 2. What chunking strategy did you choose (e.g. paragraph-based, sentence-based, character limit)? Why do you think it works well for semantic retrieval?
+I use a **sentence-based chunking strategy**, grouping a fixed number of sentences (e.g., 3-5) into each chunk. This ensures each chunk contains a complete thought, improving semantic retrieval. Paragraph-based chunking can be inconsistent, and character-limit chunking may split sentences awkwardly. Sentence-based chunks maintain context and coherence, which helps the retrieval model match queries to relevant information more accurately.
+
+### 3. What embedding model did you use? Why did you choose it? How does it capture the meaning of the text?
+I use the **OpenAI `text-embedding-3-small`** model (via the OpenAI API) for generating embeddings. This model is fast, multilingual, and provides strong performance for semantic similarity tasks. It encodes sentences and paragraphs into dense vectors that reflect their meaning, allowing for effective semantic search across both Bengali and English content.
+
+### 4. How are you comparing the query with your stored chunks? Why did you choose this similarity method and storage setup?
+I compare the query embedding with stored chunk embeddings using **cosine similarity** (and also support L2 and dot product). Embeddings are stored in a **FAISS** index for efficient large-scale vector search. Cosine similarity is widely used for semantic search, as it measures the angle between vectors, reflecting their semantic similarity regardless of length. FAISS enables fast retrieval even with thousands of chunks.
+
+### 5. How do you ensure that the question and the document chunks are compared meaningfully? What would happen if the query is vague or missing context?
+I use the same embedding model for both queries and document chunks, ensuring they are represented in the same semantic space. This allows for direct and meaningful comparison. If a query is vague or lacks context, the retrieval may return less relevant chunks, as the model relies on semantic similarity. For best results, users should provide as much context as possible in their queries.
+
+### 6. Do the results seem relevant? If not, what might improve them (e.g. better chunking, better embedding model, larger document)?
+The results are generally relevant, especially for well-formed, context-rich queries. If results are not satisfactory, improvements could include:
+- Using a more advanced embedding model (e.g., `all-mpnet-base-v2` or domain-specific models)
+- Adjusting the chunking strategy (e.g., overlapping or dynamic chunk sizes)
+- Expanding the document set or including more context in each chunk
+- Fine-tuning the retrieval pipeline based on user feedback
+
+## 🗂️ Assets Folder
+
+The `assets/` directory contains example questions and response outputs to help you understand the system's capabilities and expected results. These include:
+
+- `FastApi.JPG`: Example of the FastAPI interface in use
+- `Question_answer.JPG`: Sample question and answer output
+- `Question_answer2.JPG`: Another example of question and answer output
+
+You can refer to these images for a visual demonstration of the system's input and output.
+
 ## 🤝 Contributing
 
 1. Fork the repository
