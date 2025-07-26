@@ -74,6 +74,12 @@ logs/
 # PDF files (optional - remove if you want to include sample PDFs)
 *.pdf
 
+# Keep image files for documentation
+!assets/*.jpg
+!assets/*.JPG
+!assets/*.png
+!assets/*.PNG
+
 # API keys and secrets
 secrets.json
 config.json 
