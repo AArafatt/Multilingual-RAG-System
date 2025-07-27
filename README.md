@@ -4,7 +4,7 @@ A sophisticated multilingual RAG system designed to answer questions from Bengal
 
 ## 🌟 Features
 
-- **Multilingual Support**: Handles both Bengali (বাংলা) and English text
+- **Multilingual Support**: Handles both Bengali (বাংলা) and English text, with improved prompt selection for accurate answers in both languages (uses `langdetect` for automatic language detection)
 - **PDF Processing**: OCR-based text extraction from PDF documents
 - **Intelligent Chunking**: Smart text segmentation with overlap for better context
 - **Multiple Retrieval Methods**: L2, Dot Product, and Cosine similarity search
@@ -63,6 +63,8 @@ The system consists of several components:
    ```bash
    pip install -r env/requirements.txt
    ```
+   
+   The system uses the [`langdetect`](https://pypi.org/project/langdetect/) Python package to automatically detect the language of user questions and select the appropriate prompt for Bengali or English. This enables accurate multilingual support.
 
 4. **Set up environment variables**
    ```bash
@@ -106,6 +108,12 @@ streamlit run rag_ui.py
 ```
 
 Access the web interface at: `http://localhost:8501`
+
+#### Example: English Question Response
+
+The system now supports accurate responses to English questions as well as Bengali. See the example below:
+
+![English Response Example](assets/Question_answer_English.JPG)
 
 ### 3. REST API
 
@@ -232,8 +240,8 @@ The results are generally relevant, especially for well-formed, context-rich que
 The `assets/` directory contains example questions and response outputs to help you understand the system's capabilities and expected results. These include:
 
 - `FastApi.JPG`: Example of the FastAPI interface in use
-- `Question_answer.JPG`: Sample question and answer output
-- `Question_answer2.JPG`: Another example of question and answer output
+- `Question_answer.JPG`: Sample Bangla question and answer output
+- `Question_answer2.JPG`: Another example of Bangla question and answer output
 
 You can refer to these images for a visual demonstration of the system's input and output.
 
